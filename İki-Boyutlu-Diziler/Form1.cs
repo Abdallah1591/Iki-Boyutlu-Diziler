@@ -16,7 +16,6 @@ namespace İki_Boyutlu_Diziler
             numBsatir.Minimum = numBsutun.Minimum = 1;
             numBsatir.Maximum = numBsutun.Maximum = 6;
 
-
             grpBoxİşlem.Visible = false;
             btnHesapla.Visible = false;
             lbleşit.Visible = false;
@@ -25,6 +24,17 @@ namespace İki_Boyutlu_Diziler
             dgvSonuc.Visible = false;
             lblişlem.Visible = false;
             rdBtnToplama.Checked = true;
+
+            dgvA.RowHeadersVisible = false;
+            dgvA.ColumnHeadersVisible = false;
+            dgvB.RowHeadersVisible = false; 
+            dgvB.ColumnHeadersVisible = false;
+            dgvSonuc.RowHeadersVisible = false; 
+            dgvSonuc.ColumnHeadersVisible = false;
+
+            dgvA.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvB.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvSonuc.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;  
 
 
         }
