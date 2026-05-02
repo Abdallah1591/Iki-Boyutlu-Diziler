@@ -26,16 +26,6 @@ namespace İki_Boyutlu_Diziler
             lblişlem.Visible = false;
             rdBtnToplama.Checked = true;
 
-            dgvA.RowHeadersVisible = false;
-            dgvA.ColumnHeadersVisible = false;
-            dgvB.RowHeadersVisible = false; 
-            dgvB.ColumnHeadersVisible = false;
-            dgvSonuc.RowHeadersVisible = false; 
-            dgvSonuc.ColumnHeadersVisible = false;
-
-            dgvA.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dgvB.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dgvSonuc.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;   
 
         }
 
@@ -81,11 +71,11 @@ namespace İki_Boyutlu_Diziler
                 dgvSonuc.Columns.Clear();
                 dgvSonuc.Visible = true;
                 lbleşit.Visible = true;
-                
-                for (int i = 0; i < sutun; i++) 
+
+                for (int i = 0; i < sutun; i++)
                     dgvSonuc.Columns.Add("", "");
-                
-                for (int i = 0; i < satir; i++) 
+
+                for (int i = 0; i < satir; i++)
                     dgvSonuc.Rows.Add();
             }
 
@@ -96,14 +86,10 @@ namespace İki_Boyutlu_Diziler
                 {
                     lblişlem.Text = "+";
                     SonucMatris((int)numAsatir.Value, (int)numAsutun.Value);
-                    
+
                     for (int i = 0; i < (int)numAsatir.Value; i++)
                         for (int j = 0; j < (int)numAsutun.Value; j++)
-                        {
-                            int a = Convert.ToInt32(dgvA.Rows[i].Cells[j].Value);
-                            int b = Convert.ToInt32(dgvB.Rows[i].Cells[j].Value);
-                            dgvSonuc.Rows[i].Cells[j].Value = a + b;
-                        }
+                            dgvSonuc.Rows[i].Cells[j].Value = Convert.ToInt32(dgvA.Rows[i].Cells[j].Value) + Convert.ToInt32(dgvB.Rows[i].Cells[j].Value);
                 }
                 else MessageBox.Show("Toplama için Matris boyutlar aynı olmalı!");
             }
@@ -116,11 +102,7 @@ namespace İki_Boyutlu_Diziler
                     SonucMatris((int)numAsatir.Value, (int)numAsutun.Value);
                     for (int i = 0; i < (int)numAsatir.Value; i++)
                         for (int j = 0; j < (int)numAsutun.Value; j++)
-                        {
-                            int a = Convert.ToInt32(dgvA.Rows[i].Cells[j].Value);
-                            int b = Convert.ToInt32(dgvB.Rows[i].Cells[j].Value);
-                            dgvSonuc.Rows[i].Cells[j].Value = a - b;
-                        }
+                            dgvSonuc.Rows[i].Cells[j].Value = Convert.ToInt32(dgvA.Rows[i].Cells[j].Value) - Convert.ToInt32(dgvB.Rows[i].Cells[j].Value);
                 }
                 else MessageBox.Show("Çıkarma için Matris boyutlar aynı olmalı!");
             }
@@ -137,11 +119,7 @@ namespace İki_Boyutlu_Diziler
                         {
                             int toplam = 0;
                             for (int k = 0; k < (int)numAsutun.Value; k++)
-                            {
-                                int a = Convert.ToInt32(dgvA.Rows[i].Cells[k].Value);
-                                int b = Convert.ToInt32(dgvB.Rows[k].Cells[j].Value);
-                                toplam += a * b;
-                            }
+                                toplam += Convert.ToInt32(dgvA.Rows[i].Cells[k].Value) * Convert.ToInt32(dgvB.Rows[k].Cells[j].Value);
                             dgvSonuc.Rows[i].Cells[j].Value = toplam;
                         }
                     }
@@ -152,69 +130,28 @@ namespace İki_Boyutlu_Diziler
             void OrtalamaMetodu()
             {
                 lblişlem.Text = "AVR";
-                int maxSatir = (int)Math.Max(numAsatir.Value, numBsatir.Value);
-                SonucMatris(maxSatir, 1);
-                for (int i = 0; i < maxSatir; i++)
+                SonucMatris((int)numAsatir.Value, 1); // Results in 1 column
+                for (int i = 0; i < (int)numAsatir.Value; i++)
                 {
                     double satirToplami = 0;
-                    int hucreSayisi = 0;
-
-                    if (i < (int)numAsatir.Value)
-                    {
-                        for (int j = 0; j < (int)numAsutun.Value; j++)
-                        {
-                            satirToplami += Convert.ToDouble(dgvA.Rows[i].Cells[j].Value);
-                            hucreSayisi++; 
-                        }
-                    }
-
-                    if (i < (int)numBsatir.Value)
-                    {
-                        for (int j = 0; j < (int)numBsutun.Value; j++)
-                        {
-                            satirToplami += Convert.ToDouble(dgvB.Rows[i].Cells[j].Value);
-                            hucreSayisi++; 
-                        }
-                    }
-
-                    if (hucreSayisi > 0)
-                    {
-                        double ortalama = satirToplami / hucreSayisi;
-                        dgvSonuc.Rows[i].Cells[0].Value = ortalama.ToString("0.00");
-                    }
+                    for (int j = 0; j < (int)numAsutun.Value; j++)
+                        satirToplami += Convert.ToDouble(dgvA.Rows[i].Cells[j].Value);
+                    dgvSonuc.Rows[i].Cells[0].Value = (satirToplami / (int)numAsutun.Value).ToString("0.00");
                 }
             }
 
             void MaksimumMetodu()
             {
                 lblişlem.Text = "MAX";
-                int maxSutun = (int)Math.Max(numAsutun.Value, numBsutun.Value);
-                SonucMatris(1, maxSutun); 
-
-                for (int j = 0; j < maxSutun; j++)
+                SonucMatris(1, (int)numAsutun.Value); // Results in 1 row
+                for (int j = 0; j < (int)numAsutun.Value; j++)
                 {
-                    int enBuyuk = 0; 
-
-                    
-                    if (j < (int)numAsutun.Value)
+                    int enBuyuk = 0;
+                    for (int i = 0; i < (int)numAsatir.Value; i++)
                     {
-                        for (int i = 0; i < (int)numAsatir.Value; i++)
-                        {
-                            int deger = Convert.ToInt32(dgvA.Rows[i].Cells[j].Value);
-                            if (deger > enBuyuk) enBuyuk = deger;
-                        }
+                        int sayi = Convert.ToInt32(dgvA.Rows[i].Cells[j].Value);
+                        if (sayi > enBuyuk) enBuyuk = sayi;
                     }
-
-                    
-                    if (j < (int)numBsutun.Value)
-                    {
-                        for (int i = 0; i < (int)numBsatir.Value; i++)
-                        {
-                            int deger = Convert.ToInt32(dgvB.Rows[i].Cells[j].Value);
-                            if (deger > enBuyuk) enBuyuk = deger;
-                        }
-                    }
-
                     dgvSonuc.Rows[0].Cells[j].Value = enBuyuk;
                 }
             }
